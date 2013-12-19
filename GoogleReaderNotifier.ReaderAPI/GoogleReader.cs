@@ -68,11 +68,15 @@ namespace GoogleReaderNotifier.ReaderAPI
 			return detailedcount;
 		}
 
-
+        string auth_head_string;    // authorization string, got from Login() "Auth=" field.
 		public string Login(string username, string password)
 		{
+            auth_head_string = null;
 			HttpWebRequest req = CreateRequest("https://www.google.com/accounts/ClientLogin");
-			PostLoginForm(req, String.Format("accountType=GOOGLE&Email={0}&Passwd={1}&service=reader&continue=https://www.google.com/reader", username, password));
+			PostLoginForm(req, String.Format(
+                "accountType=HOSTED_OR_GOOGLE&Email={0}&Passwd={1}&service=reader&source=GRN_mod&continue=https://www.google.com/reader",
+                Uri.EscapeDataString(username),
+                Uri.EscapeDataString(password)));
 
 			var resString = GetResponseString(req);
 			if(resString.IndexOf("SID=") != -1)
@@ -81,9 +85,13 @@ namespace GoogleReaderNotifier.ReaderAPI
 				{
 					if(line.StartsWith("SID="))
 						_Cookies.Add(new Cookie("SID", line.Substring(4)));
-					if(line.StartsWith("LSID="))
-						_Cookies.Add(new Cookie("LSID", line.Substring(5)));
-				}
+                    if (line.StartsWith("LSID="))
+                        _Cookies.Add(new Cookie("LSID", line.Substring(5)));
+                    if (line.StartsWith("Auth="))
+                        auth_head_string = line.Substring(5);
+                    if (line.StartsWith("HSID="))
+                        _Cookies.Add(new Cookie("HSID", line.Substring(5)));
+                }
 
 				_loggedIn = true;
 				return string.Empty;
@@ -189,6 +197,10 @@ namespace GoogleReaderNotifier.ReaderAPI
 			WebProxy defaultProxy = WebProxy.GetDefaultProxy();
 
 			_cookiesContainer.Add(new Uri(url, UriKind.Absolute), _Cookies);
+
+            // add request header: Authorization field, GoogleLogin auth=[login auth string]...
+            if(!string.IsNullOrEmpty(auth_head_string))
+                req.Headers.Add("Authorization", "GoogleLogin auth=" + auth_head_string);
 
 			req.Proxy = defaultProxy; 
 			//req.UserAgent = _user.UserAgent;
