@@ -71,10 +71,20 @@ namespace GoogleReaderNotifier.ReaderAPI
 
 		public string Login(string username, string password)
 		{
-			HttpWebRequest req = CreateRequest("https://www.google.com/accounts/ServiceLoginAuth");
-			PostLoginForm(req, String.Format("Email={0}&Passwd={1}&service=reader&continue=https://www.google.com/reader", username, password));
-			if(GetResponseString(req).IndexOf("/accounts/SetSID?") != -1)
+			HttpWebRequest req = CreateRequest("https://www.google.com/accounts/ClientLogin");
+			PostLoginForm(req, String.Format("accountType=GOOGLE&Email={0}&Passwd={1}&service=reader&continue=https://www.google.com/reader", username, password));
+
+			var resString = GetResponseString(req);
+			if(resString.IndexOf("SID=") != -1)
 			{
+				foreach(var line in resString.Split('\n'))
+				{
+					if(line.StartsWith("SID="))
+						_Cookies.Add(new Cookie("SID", line.Substring(4)));
+					if(line.StartsWith("LSID="))
+						_Cookies.Add(new Cookie("LSID", line.Substring(5)));
+				}
+
 				_loggedIn = true;
 				return string.Empty;
 			}
@@ -177,7 +187,9 @@ namespace GoogleReaderNotifier.ReaderAPI
 		{
 			HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
 			WebProxy defaultProxy = WebProxy.GetDefaultProxy();
-			
+
+			_cookiesContainer.Add(new Uri(url, UriKind.Absolute), _Cookies);
+
 			req.Proxy = defaultProxy; 
 			//req.UserAgent = _user.UserAgent;
 			req.CookieContainer = _cookiesContainer;
