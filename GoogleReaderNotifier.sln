@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleReaderNotifier.WinUI", "GoogleReaderNotifier.WinUI\GoogleReaderNotifier.WinUI.csproj", "{2DB200C1-56AD-4198-995B-B8FB8EB989BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleReaderNotifier.ReaderAPI", "GoogleReaderNotifier.ReaderAPI\GoogleReaderNotifier.ReaderAPI.csproj", "{CFF93B2D-31FA-4DA2-B2DE-17E5E83DD73E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "GoogleReaderNotifier.Setup", "GoogleReaderNotifier.Setup\GoogleReaderNotifier.Setup.vdproj", "{9A0D9CB9-4F88-4C05-8049-886616F062D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2DB200C1-56AD-4198-995B-B8FB8EB989BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DB200C1-56AD-4198-995B-B8FB8EB989BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DB200C1-56AD-4198-995B-B8FB8EB989BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DB200C1-56AD-4198-995B-B8FB8EB989BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF93B2D-31FA-4DA2-B2DE-17E5E83DD73E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF93B2D-31FA-4DA2-B2DE-17E5E83DD73E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF93B2D-31FA-4DA2-B2DE-17E5E83DD73E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF93B2D-31FA-4DA2-B2DE-17E5E83DD73E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A0D9CB9-4F88-4C05-8049-886616F062D8}.Debug|Any CPU.ActiveCfg = Debug
+		{9A0D9CB9-4F88-4C05-8049-886616F062D8}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
